@@ -2,7 +2,7 @@ const mongo = require('mongoose');
 
 const  studentSchema = new mongo.Schema({
 
-    title : {type: String,required: true, unique:true},
+    title : {type: String,required: true, unique:true,trim: true},
     desc: {type: String,required: true},
     status:{type:Boolean, default:false},
     dueDate :{type: Date,required: true},

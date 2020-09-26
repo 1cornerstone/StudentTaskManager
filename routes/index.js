@@ -3,16 +3,16 @@ const router = require('express').Router(),
 
 
 /* GET home page. */
-router.get('/', controllers.getTasks);
+router.get('/', controllers.getTasks); // get all student task
 
-router.post('/create', controllers.createTask);
+router.post('/create', controllers.createTask); // add task
 
-router.put('/update/:id', controllers.updateTask);
+router.put('/update/:title', controllers.updateTask); //confirm  task by Title
 
-router.get('/done', controllers.getDoneTask);
+router.get('/done', controllers.getDoneTask);// get all done task
 
-router.get('/pending', controllers.getPendingTask);
+router.get('/pending', controllers.getPendingTask);//get list of undone task
 
-router.delete('/delete/:id', controllers.deleteTask);
+router.delete('/delete/:title', controllers.deleteTask);// delete task by title
 
 module.exports = router;

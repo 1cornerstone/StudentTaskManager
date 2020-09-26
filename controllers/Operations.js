@@ -1,4 +1,3 @@
-
 // create
 //update
 //delete
@@ -8,36 +7,57 @@ const Student = require('../models/student');
 
 module.exports = {
 
-   getTasks :  async ( req,res) =>{
-        const  tasks = await Student.find({});
-        res.send(tasks);
+    getTasks: async (req, res) => {
+        let tasks = await Student.find({});
+        res.json(tasks);
     },
 
-   createTask :  async (req,res)=>{
-        const  student = new Student(req.body);
+    createTask: async (req, res) => {
+        const student = new Student(req.body);
         try {
             await student.save();
             res.send("saved");
-        }catch (e) {
-            res.status(500).send(Object.keys(e.keyValue)+' must be unique');
+        } catch (e) {
+            res.status(500).send(e);
         }
 
+    },
 
+    updateTask: async (req, res) => {
 
-   }  ,
+        let resp = await Student.updateOne({title: req.params.title},
+            {
+                $set: {status: true}
+            });
 
-    updateTask : async (req,res)=>{
+        if (Object.values(resp)[1] !== 0) return res.send('Updated')
 
-   } ,
-     deleteTask : async (req,res)=>{
+        return res.send('Nothing Changed');
 
-   } ,
-    getPendingTask : async (req,res)=>{
+    },
 
-   } ,
-  getDoneTask : async (req,res)=>{
+    deleteTask: async (req, res) => {
 
-   } ,
+        await Student.updateOne({title: req.params.title},
+            {
+                $set: {status: true}
+            });
+
+        res.send('Delete')
+
+    },
+
+    getPendingTask: async (req, res) => {
+
+        let resp = await Student.find({status: false}, {title: 1, desc: 2, _id: 0});
+        res.send(resp);
+
+    },
+
+    getDoneTask: async (req, res) => {
+        let resp = await Student.find({status: true}, {title: 1, desc: 2, _id: 0});
+        res.send(resp);
+    },
 
 
 };
